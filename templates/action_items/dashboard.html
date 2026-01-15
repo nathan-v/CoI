@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Action Items Dashboard{% endblock %}
+
+{% block inner_content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Action Items Dashboard</h2>
+            
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Open Items</h5>
+                            <p class="card-text display-4">{{ open_count }}</p>
+                            <a href="{{ url_for('action_items.action_items_list') }}" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">In Progress</h5>
+                            <p class="card-text display-4">{{ in_progress_count }}</p>
+                            <a href="{{ url_for('action_items.action_items_list') }}" class="btn btn-warning">View</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Closed Items</h5>
+                            <p class="card-text display-4">{{ closed_count }}</p>
+                            <a href="{{ url_for('action_items.action_items_list') }}" class="btn btn-success">View</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Total Items</h5>
+                            <p class="card-text display-4">{{ total_count }}</p>
+                            <a href="{{ url_for('action_items.action_items_list') }}" class="btn btn-info">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Recent Action Items</h3>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Incident</th>
+                                    <th>Assigned User</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for action_item in recent_items %}
+                                <tr>
+                                    <td>{{ action_item.title }}</td>
+                                    <td>
+                                        {% if action_item.incident %}
+                                            <a href="{{ url_for('incidents.incidents_detail', incident_id=action_item.incident.id) }}">
+                                                {{ action_item.incident.title }}
+                                            </a>
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if action_item.assigned_user %}
+                                            {{ action_item.assigned_user.username }}
+                                        {% else %}
+                                            Unassigned
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-{% if action_item.status == 'open' %}warning{% elif action_item.status == 'closed' %}success{% else %}secondary{% endif %}">
+                                            {{ action_item.status }}
+                                        </span>
+                                    </td>
+                                    <td>{{ action_item.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center">No action items found.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

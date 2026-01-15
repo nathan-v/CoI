@@ -1,0 +1,84 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Create Action Item{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white shadow rounded-lg p-6 dark:bg-gray-800 dark:border dark:border-gray-700">
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Create Action Item</h1>
+        
+        <form method="POST" action="{{ url_for('incidents.incidents_create_action_item', incident_id=incident.id) }}">
+            <div class="mb-4">
+                <label for="title" class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Title *</label>
+                <input type="text" id="title" name="title" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+            </div>
+
+<div class="mb-6">
+                <label for="summary" class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Summary</label>
+                <div id="summary-editor" class="border border-gray-300 rounded-lg h-64 dark:border-gray-600"></div>
+                <input type="hidden" id="summary" name="summary">
+                <p class="text-gray-600 text-xs mt-1 dark:text-gray-400">Supports rich text formatting</p>
+            </div>
+
+            <div class="mb-4">
+                <label for="tracking_link" class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Tracking Link</label>
+                <input type="url" id="tracking_link" name="tracking_link" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+            </div>
+
+            <div class="mb-4">
+                <label for="status" class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Status</label>
+                <select id="status" name="status" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                    <option value="open">Open</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+
+            <div class="mb-6">
+                <label for="assigned_user_id" class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Assigned To *</label>
+                <select id="assigned_user_id" name="assigned_user_id" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                    <option value="">Select a user</option>
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex justify-end space-x-3">
+                <a href="{{ url_for('incidents.incidents_detail', incident_id=incident.id) }}" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700">
+                    Cancel
+                </a>
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600">
+                    Create Action Item
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Quill.js CDN for WYSIWYG editor -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<script>
+    // Initialize Quill editor
+    var quill = new Quill('#summary-editor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline', 'strike'],
+                ['blockquote', 'code-block'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['link', 'image'],
+                ['clean']
+            ]
+        }
+    });
+
+    // Update the hidden input field when editor content changes
+    quill.on('text-change', function() {
+        var html = quill.root.innerHTML;
+        document.getElementById('summary').value = html;
+    });
+</script>
+{% endblock %}

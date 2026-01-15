@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Create Incident - CoI{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Create New Incident</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 dark:bg-green-900/30 dark:border-green-800 dark:text-green-300">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" class="bg-white shadow rounded-lg p-6 dark:bg-gray-800 dark:border dark:border-gray-700">
+        <div class="mb-4">
+            <label for="title" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Title</label>
+            <input type="text" id="title" name="title" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600">
+        </div>
+
+        <div class="mb-4">
+            <label for="summary" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Summary</label>
+            <div id="summary-editor" class="border border-gray-300 rounded-lg dark:border-gray-600"></div>
+            <input type="hidden" id="summary" name="summary" required>
+            <p class="text-gray-600 text-xs mt-1 dark:text-gray-400">Supports rich text formatting</p>
+        </div>
+
+        <div class="mb-4">
+            <label for="why1" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Why 1</label>
+            <textarea id="why1" name="why1" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600"></textarea>
+        </div>
+
+        <div class="mb-4">
+            <label for="why2" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Why 2</label>
+            <textarea id="why2" name="why2" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600"></textarea>
+        </div>
+
+        <div class="mb-4">
+            <label for="why3" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Why 3</label>
+            <textarea id="why3" name="why3" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600"></textarea>
+        </div>
+
+        <div class="mb-4">
+            <label for="why4" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Why 4</label>
+            <textarea id="why4" name="why4" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600"></textarea>
+        </div>
+
+        <div class="mb-4">
+            <label for="why5" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Why 5</label>
+            <textarea id="why5" name="why5" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600"></textarea>
+        </div>
+
+        <div class="mb-4">
+            <label for="status" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Status</label>
+            <select id="status" name="status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                <option value="open">Open</option>
+                <option value="in-progress">In Progress</option>
+                <option value="resolved">Resolved</option>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label for="security_level" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Security Level</label>
+            <select id="security_level" name="security_level" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                <option value="public">Public</option>
+                <option value="private" selected>Private</option>
+                <option value="sensitive">Sensitive</option>
+            </select>
+            <p class="text-gray-600 text-xs mt-1 dark:text-gray-400">Public incidents are visible to all users. Private incidents are visible to the creator, owner, and administrators. Sensitive incidents are only visible to the creator, owner, and administrators.</p>
+        </div>
+
+        <div class="mb-4">
+            <label for="owner_id" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Owner</label>
+            <select id="owner_id" name="owner_id" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                <option value="">Select owner</option>
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label for="assigned_group_id" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Assigned Group</label>
+            <select id="assigned_group_id" name="assigned_group_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                <option value="">Select group (optional)</option>
+                {% for group in groups %}
+                <option value="{{ group.id }}">{{ group.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-blue-600 dark:hover:bg-blue-700">
+                Create Incident
+            </button>
+            <a href="{{ url_for('incidents.incidents_list') }}" class="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<!-- Quill.js CDN for WYSIWYG editor -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<script>
+    // Initialize Quill editor
+    var quill = new Quill('#summary-editor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline', 'strike'],
+                ['blockquote', 'code-block'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['link', 'image'],
+                ['clean']
+            ]
+        }
+    });
+
+    // Update the hidden input field when editor content changes
+    quill.on('text-change', function() {
+        var html = quill.root.innerHTML;
+        document.getElementById('summary').value = html;
+    });
+</script>
+{% endblock %}

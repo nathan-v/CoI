@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block inner_content %}
+<div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
+    <p class="text-gray-600 dark:text-gray-400">Welcome to the administration panel.</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-800 dark:border dark:border-gray-700">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 dark:text-white">Users</h2>
+        <div class="space-y-2">
+            <p class="text-gray-600 dark:text-gray-400">Total users: <span class="font-medium dark:text-white">{{ user_count }}</span></p>
+            <p class="text-gray-600 dark:text-gray-400">Admin users: <span class="font-medium dark:text-white">{{ admin_count }}</span></p>
+        </div>
+        <a href="{{ url_for('admin.admin_users') }}" class="mt-4 inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded dark:bg-blue-700 dark:hover:bg-blue-600">Manage Users</a>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-800 dark:border dark:border-gray-700">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 dark:text-white">Groups</h2>
+        <div class="space-y-2">
+            <p class="text-gray-600 dark:text-gray-400">Total groups: <span class="font-medium dark:text-white">{{ group_count }}</span></p>
+        </div>
+        <a href="{{ url_for('admin.admin_groups') }}" class="mt-4 inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded dark:bg-blue-700 dark:hover:bg-blue-600">Manage Groups</a>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-800 dark:border dark:border-gray-700">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 dark:text-white">Incidents</h2>
+        <div class="space-y-2">
+            <p class="text-gray-600 dark:text-gray-400">Total incidents: <span class="font-medium dark:text-white">{{ incident_count }}</span></p>
+        </div>
+        <a href="{{ url_for('admin.admin_incidents') }}" class="mt-4 inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded dark:bg-blue-700 dark:hover:bg-blue-600">Manage Incidents</a>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-800 dark:border dark:border-gray-700">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 dark:text-white">Action Items</h2>
+        <div class="space-y-2">
+            <p class="text-gray-600 dark:text-gray-400">Total action items: <span class="font-medium dark:text-white">{{ action_item_count }}</span></p>
+        </div>
+        <a href="{{ url_for('admin.admin_action_items') }}" class="mt-4 inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded dark:bg-blue-700 dark:hover:bg-blue-600">Manage Action Items</a>
+    </div>
+</div>
+{% endblock %}

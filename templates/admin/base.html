@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel - CoI{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row min-h-screen">
+    <!-- Sidebar -->
+    <div class="w-full md:w-64 bg-white dark:bg-gray-800 shadow-md dark:shadow-gray-700 p-4 md:min-h-screen">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Admin Menu</h2>
+        <ul class="space-y-2">
+            <li>
+                <a href="{{ url_for('admin.admin_panel') }}" class="block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 {{ 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' if request.endpoint == 'admin.admin_panel' else '' }}">Dashboard</a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin.admin_users') }}" class="block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 {{ 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' if request.endpoint == 'admin.admin_users' else '' }}">Users</a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin.admin_groups') }}" class="block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 {{ 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' if request.endpoint == 'admin.admin_groups' else '' }}">Groups</a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin.admin_incidents') }}" class="block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 {{ 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' if request.endpoint == 'admin.admin_incidents' else '' }}">Incidents</a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin.admin_action_items') }}" class="block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 {{ 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' if request.endpoint == 'admin.admin_action_items' else '' }}">Action Items</a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="flex-1 p-4 md:p-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mb-6">
+                    {% for category, message in messages %}
+                        <div class="rounded-md {{ 'bg-red-50 dark:bg-red-900/30' if category == 'error' else 'bg-green-50 dark:bg-green-900/30' }} p-4">
+                            <div class="text-sm {{ 'text-red-700 dark:text-red-300' if category == 'error' else 'text-green-700 dark:text-green-300' }}">{{ message }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        <div class="bg-white shadow rounded-lg p-6 dark:bg-gray-800 dark:border dark:border-gray-700">
+            {% block inner_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

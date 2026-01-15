@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}CoI - Incident Management System{% endblock %}
+
+{% block content %}
+<div class="text-center mb-16">
+    <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-6">CoI - Cause of Incident</h1>
+    <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+        A comprehensive platform for managing incidents, action items, and team collaboration.
+    </p>
+</div>
+
+<!-- App Description Section -->
+<div class="bg-white dark:bg-gray-800 shadow rounded-lg p-8 mb-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">About This Application</h2>
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+                The CoI (Cause of Incident) system is designed to streamline incident management processes for teams. 
+                It provides tools for tracking incidents, assigning action items, and managing team collaboration.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+                Key features include:
+            </p>
+            <ul class="text-gray-700 dark:text-gray-300 list-disc pl-5 mb-4">
+                <li>Incident tracking and management</li>
+                <li>Action item assignment and monitoring</li>
+                <li>Team collaboration tools</li>
+                <li>Administrative controls</li>
+                <li>Flexible authentication options</li>
+            </ul>
+            <p class="text-gray-700 dark:text-gray-300">
+                Whether you're managing a small team or a large organization, CoI provides the tools needed to keep incidents under control and ensure timely resolution.
+            </p>
+        </div>
+        <div class="flex justify-center">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="CoI Logo" class="max-w-full h-auto rounded-lg">
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div class="text-blue-600 mb-4">
+            <i class="fas fa-bug text-3xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Incident Management</h3>
+        <p class="text-gray-700 dark:text-gray-300">
+            Track and manage incidents from detection through resolution with detailed reporting and status updates.
+        </p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div class="text-green-600 mb-4">
+            <i class="fas fa-tasks text-3xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Action Items</h3>
+        <p class="text-gray-700 dark:text-gray-300">
+            Assign and track action items with clear ownership and deadlines to ensure follow-through.
+        </p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div class="text-purple-600 mb-4">
+            <i class="fas fa-users text-3xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Team Collaboration</h3>
+        <p class="text-gray-700 dark:text-gray-300">
+            Enable seamless collaboration between team members with shared workspaces and communication tools.
+        </p>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="text-center bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-8 text-white">
+    <h2 class="text-2xl font-bold mb-4">Ready to Get Started?</h2>
+    <p class="mb-6 max-w-2xl mx-auto">
+        Join our incident management system and streamline your team's workflow today.
+    </p>
+    {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('auth.login') }}" class="bg-white text-blue-600 font-bold py-2 px-6 rounded-lg hover:bg-gray-100 transition duration-300">
+            Login to Your Account
+        </a>
+    {% else %}
+        <a href="{{ url_for('incidents.incidents_list') }}" class="bg-white text-blue-600 font-bold py-2 px-6 rounded-lg hover:bg-gray-100 transition duration-300">
+            View Incidents
+        </a>
+    {% endif %}
+</div>
+{% endblock %}

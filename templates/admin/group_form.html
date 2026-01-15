@@ -1,0 +1,95 @@
+{% extends "admin/base.html" %}
+
+{% block inner_content %}
+<div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-800 dark:text-white">{% if is_edit %}Edit Group{% else %}Create New Group{% endif %}</h1>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="mb-6">
+            {% for category, message in messages %}
+                <div class="rounded-md {{ 'bg-red-50 dark:bg-red-900/30' if category == 'error' else 'bg-green-50 dark:bg-green-900/30' }} p-4">
+                    <div class="text-sm {{ 'text-red-700 dark:text-red-300' if category == 'error' else 'text-green-700 dark:text-green-300' }}">{{ message }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<form method="POST" class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+            <input type="text" id="name" name="name" required class="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:text-white" value="{{ group.name if is_edit else '' }}">
+        </div>
+        <div>
+            <label for="owner_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Owner</label>
+            <select id="owner_id" name="owner_id" class="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:text-white">
+                <option value="">Select an owner (optional)</option>
+                {% for user in users %}
+                    <option value="{{ user.id }}" {% if is_edit and group.owner_id == user.id %}selected{% endif %}>{{ user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <label for="parent_group_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Parent Group</label>
+            <select id="parent_group_id" name="parent_group_id" class="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:text-white">
+                <option value="">Select a parent group (optional)</option>
+                {% for group_option in groups %}
+                    <option value="{{ group_option.id }}" {% if is_edit and group.parent_groups and group.parent_groups|length > 0 and group.parent_groups[0].id == group_option.id %}selected{% endif %}>{{ group_option.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    
+    <div>
+        <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
+        <textarea id="description" name="description" rows="3" class="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:text-white">{{ group.description if is_edit else '' }}</textarea>
+    </div>
+    
+    <div class="flex justify-end space-x-3">
+        <a href="{{ url_for('admin.admin_groups') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded dark:bg-gray-600 dark:hover:bg-gray-500">Cancel</a>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded dark:bg-blue-700 dark:hover:bg-blue-600">Save</button>
+    </div>
+</form>
+{% endblock %}
+
+<environment_details>
+# Visual Studio Code Visible Files
+templates/admin/user_form.html
+
+# Visual Studio Code Open Tabs
+templates/base.html
+templates/action_items/dashboard.html
+action_items.py
+templates/action_items/list.html
+templates/incidents/create.html
+templates/incidents/edit.html
+templates/incidents/create_action_item.html
+templates/incidents/edit_action_item.html
+templates/incidents/list.html
+incidents.py
+create_db.py
+admin.py
+templates/admin/user_form.html
+models.py
+templates/register.html
+config.py
+templates/incidents/detail.html
+app.py
+templates/admin/dashboard.html
+templates/login.html
+templates/admin/base.html
+
+# Current Time
+1/15/2026, 7:18:18 PM (America/Los_Angeles, UTC-8:00)
+
+# Context Window Usage
+22,320 / 32.768K tokens used (68%)
+
+# Current Mode
+ACT MODE
+</environment_details>
